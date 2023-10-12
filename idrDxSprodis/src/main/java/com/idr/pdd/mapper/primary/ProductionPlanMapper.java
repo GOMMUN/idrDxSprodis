@@ -76,6 +76,7 @@ public interface ProductionPlanMapper {
 	        "    `lot_work`, " +
 	        "    `start_time`, " +
 	        "    `end_time`, " +
+	        "    `first_lot_qty`, " +
 	        "    `status`, " +
 	        "    `penalty`, " +
 	        "    `group_id`, " +
@@ -104,6 +105,7 @@ public interface ProductionPlanMapper {
 	        "    #{lot_work}, " +
 	        "    #{start_time}, " +
 	        "    #{end_time}, " +
+	        "    0, " +
 	        "    0, " +
 	        "    1, " +
 	        "    0, " +
