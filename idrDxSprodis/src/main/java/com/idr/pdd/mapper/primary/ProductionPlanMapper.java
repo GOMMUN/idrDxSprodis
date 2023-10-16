@@ -52,7 +52,7 @@ public interface ProductionPlanMapper {
 	@Select("SELECT DISTINCT item_id, item_name FROM process_master")
 	List<Map<String, String>> getItem();
 
-	@Select("SELECT lot_id, lot_name FROM lot_master WHERE item_id = #{item_id} ORDER BY from_proc_id")
+	@Select("SELECT lot_id, lot_name FROM lot_master WHERE item_id = #{item_id} AND from_proc_id !=0 ORDER BY from_proc_id")
 	List<Map<String, String>> getLot(String item_id);
 
 	@Select("SELECT lot_id, from_proc_id as proc_id, (SELECT proc_name FROM process_master WHERE proc_id = from_proc_id) as proc_name, lot_name, lot_size, lot_unit, from_lot_qty as lot_qty FROM lot_master WHERE from_proc_id != 0 AND item_id = #{item_id} AND lot_id = #{lot_id}")
