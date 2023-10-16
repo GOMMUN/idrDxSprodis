@@ -129,7 +129,7 @@ public interface ProductionPlanMapper {
 	@Update("UPDATE production_plan " +
 	        "SET order_name = #{order_name}, item_id = #{item_id}, " +
 	        "item_name = (SELECT DISTINCT item_name FROM process_master WHERE item_id = #{item_id}), " +
-	        "process_id = #{process_id}, process_name = #{process_name}, " +
+	        "process_id = #{proc_id}, process_name = #{proc_name}, " +
 	        "lot_id = #{lot_id}, lot_name = #{lot_name}, " +
 	        "lot_size = #{lot_size}, lot_unit = #{lot_unit}, " +
 	        "lot_qty = #{lot_qty}, lot_work = #{lot_work}, " +

@@ -78,7 +78,7 @@ public class PrimaryController {
 			return new ResponseEntity<>(message, headers, HttpStatus.OK);
 		}catch (Exception e) {
 
-				
+			
 			message.setStatus(StatusEnum.BAD_REQUEST.getCode());
 			message.setMessage(e.getMessage());
 			message.setData(null);
