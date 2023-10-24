@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 
 import com.idr.pdd.domain.MachineResult;
 import com.idr.pdd.domain.ProcessMaster;
+import com.idr.pdd.domain.ComplianceParam;
 import com.idr.pdd.domain.LeadTimeResult;
 
 @Mapper
@@ -44,6 +45,18 @@ public interface MachineResultMapper {
 			+ "	   FROM Loss_Time "
 			+ "	   WHERE 1=1 AND Process_id <> 0 ")
 	LeadTimeResult LeadTimeResult();
+
+
+	@Select("SELECT strftime('%m-%d', DATETIME(finish_time, 'unixepoch')) AS date, "
+			+ "       COUNT(*) AS count "
+			+ " FROM machine_result "
+			+ " WHERE process_type = 2 AND divide_type = 0 OR divide_type = 3 "
+			+ " GROUP BY date "
+			+ " ORDER BY date;")
+	List<Map<String, String>> DailyProduction();
+
+
+	List<Map<String, String>> ComplianceRate(List<ComplianceParam> endtime);
 
 
 }

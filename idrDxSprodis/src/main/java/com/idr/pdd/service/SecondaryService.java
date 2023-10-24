@@ -12,6 +12,11 @@ import com.idr.pdd.domain.ProcessMaster;
 import com.idr.pdd.mapper.primary.ProcessMasterMapper;
 import com.idr.pdd.mapper.primary.ProductionPlanMapper;
 import com.idr.pdd.mapper.secondary.MachineResultMapper;
+
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
+
+import com.idr.pdd.domain.ComplianceParam;
 import com.idr.pdd.domain.LeadTimeResult;
 
 @Service
@@ -84,6 +89,17 @@ public class SecondaryService {
 		}
 
 		return result;
+	}
+
+	public List<Map<String, String>> DailyProduction() {
+		// TODO Auto-generated method stub
+		return machineResultMapper.DailyProduction();
+	}
+
+	public List<Map<String, String>> ComplianceRate() {
+		List<ComplianceParam> endtime=productionMapper.getEndtime();
+		
+		return machineResultMapper.ComplianceRate(endtime);
 	}
 
 }

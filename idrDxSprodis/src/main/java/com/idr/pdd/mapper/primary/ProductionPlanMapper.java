@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.idr.pdd.domain.ComplianceParam;
 import com.idr.pdd.domain.ProductionPlan;
 import com.idr.pdd.domain.ProductionPlanSub;
 
@@ -140,5 +141,10 @@ public interface ProductionPlanMapper {
 	
 	@Select("SELECT order_id, (end_time - start_time) AS available_time FROM production_plan pp GROUP BY order_id ORDER BY order_id ")
 	List<Map<String, String>> getAvailabletime();
+	
+	@Select(" SELECT order_id ,start_time ,end_time "
+			+ " FROM production_plan "
+			+ " group by order_id ")
+	List<ComplianceParam> getEndtime();
 
 }

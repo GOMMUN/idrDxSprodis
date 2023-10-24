@@ -23,6 +23,8 @@ import com.idr.pdd.domain.LeadTimeResult;
 import com.idr.pdd.service.PrimaryService;
 import com.idr.pdd.service.SecondaryService;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @RestController
 @RequestMapping("/secondary")
 public class SecondaryController {
@@ -105,5 +107,56 @@ public class SecondaryController {
 			return new ResponseEntity<>(message, headers, HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@GetMapping("/DailyProduction")
+	public ResponseEntity<Message> DailyProduction() {
+
+		Message message = new Message();
+		HttpHeaders headers = new HttpHeaders();
+		
+		try {
+			List<Map<String,String>>result = secondaryService.DailyProduction();
+
+			headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+			message.setStatus(StatusEnum.OK.getCode());
+			message.setMessage(StatusEnum.OK.getName());
+			message.setData(result);
+
+			return new ResponseEntity<>(message, headers, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			message.setStatus(StatusEnum.BAD_REQUEST.getCode());
+			message.setMessage(e.getMessage());
+			message.setData(null);
+
+			return new ResponseEntity<>(message, headers, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/ComplianceRate")
+	public ResponseEntity<Message> ComplianceRate() {
+
+		Message message = new Message();
+		HttpHeaders headers = new HttpHeaders();
+		
+		try {
+			List<Map<String,String>>result = secondaryService.ComplianceRate();
+
+			headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+			message.setStatus(StatusEnum.OK.getCode());
+			message.setMessage(StatusEnum.OK.getName());
+			message.setData(result);
+
+			return new ResponseEntity<>(message, headers, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			message.setStatus(StatusEnum.BAD_REQUEST.getCode());
+			message.setMessage(e.getMessage());
+			message.setData(null);
+
+			return new ResponseEntity<>(message, headers, HttpStatus.BAD_REQUEST);
+		}
+	}
+
 
 }

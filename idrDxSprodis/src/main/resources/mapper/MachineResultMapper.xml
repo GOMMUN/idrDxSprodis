@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idr.pdd.mapper.secondary.MachineResultMapper">
+	
+	<select id="ComplianceRate" parameterType="list" resultType="map">
+		SELECT A.order_name,ROUND((CAST(a.cnt AS REAL) / CAST(b.total AS REAL) * 100), 2)as rate
+		FROM
+		(
+			SELECT order_name, COUNT(order_id) AS CNT
+			  FROM production_result
+			 WHERE 1=1 AND 
+			 <foreach collection="endtime" item="data" index="index" separator="OR" open="(" close=")">
+		        order_id = #{data.order_id} AND end_time BETWEEN #{data.start_time} AND #{data.end_time}
+		     </foreach>
+			GROUP BY order_name
+		 )A JOIN 
+		(
+			SELECT order_name, COUNT(order_id) AS TOTAL
+			  FROM production_result
+			 WHERE 1=1 AND
+			 <foreach collection="endtime" item="data" index="index" separator="OR" open="(" close=")">
+			 	order_id = #{data.order_id}
+			 </foreach> 
+			GROUP BY order_name
+		)B
+		ON A.order_name = B.order_name
+		GROUP BY A.order_name
+	</select>
+
+</mapper>
