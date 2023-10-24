@@ -137,5 +137,8 @@ public interface ProductionPlanMapper {
 	        "WHERE order_id = #{order_id}")
 	void update(int lot_id, String lot_name, int lot_qty, int lot_size, String lot_unit, int proc_id, String proc_name,
 			String start_time, String end_time, int item_id, String order_name, int lot_work,int order_id);
+	
+	@Select("SELECT order_id, (end_time - start_time) AS available_time FROM production_plan pp GROUP BY order_id ORDER BY order_id ")
+	List<Map<String, String>> getAvailabletime();
 
 }

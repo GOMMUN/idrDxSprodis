@@ -62,4 +62,8 @@ public class PrimaryService {
 				p.getLot_unit(), p.getProc_id(), p.getProc_name(), param.getStart_time(), param.getEnd_time(),
 				param.getItem_id(), param.getOrder_name(), param.getLot_work(),param.getOrder_id());
 	}
+	
+	public List<Map<String, String>> getAvailabletime(){
+		return productionPlanMapper.getAvailabletime();
+	}
 }

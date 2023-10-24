@@ -2,10 +2,12 @@ package com.idr.pdd.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@Builder
+@Setter 
 public class MachineResult {
-
-	private int machine_id;
+	private String machineId;
+    private String machineName;
+    private float equipPerformace;
 }
