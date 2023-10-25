@@ -1,6 +1,9 @@
 package com.idr.pdd.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -96,10 +99,47 @@ public class SecondaryService {
 		return machineResultMapper.DailyProduction();
 	}
 
-	public List<Map<String, String>> ComplianceRate() {
-		List<ComplianceParam> endtime=productionMapper.getEndtime();
-		
-		return machineResultMapper.ComplianceRate(endtime);
+	public List<ComplianceParam> ComplianceRate() {
+		List<ComplianceParam> plantable=productionMapper.getPlanTable();//시작시간
+		List<ComplianceParam> resulttable=machineResultMapper.getResultTable();//납기
+		for(int i=0;i<plantable.size();i++) {
+			plantable.get(i).setDue_time(resulttable.get(i).getDue_time());
+		}
+		List<ComplianceParam> finalResult=machineResultMapper.ComplianceRate(plantable);//종료시간
+		for(int i=0;i<finalResult.size();i++) {
+			finalResult.get(i).setStart_time(plantable.get(i).getTrans_starttime());
+			finalResult.get(i).setDue_time(resulttable.get(i).getTrans_duetime());
+			finalResult.get(i).setTaken_time(DateDifference(plantable.get(i).getTrans_starttime(),finalResult.get(i).getEnd_time()));
+		}
+		return finalResult;
 	}
+	
+	public String DateDifference(String a, String b) {
+	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	    try {
+	        // 문자열을 Date 객체로 변환
+	        Date date1 = format.parse(a);
+	        Date date2 = format.parse(b);
+
+	        // 두 날짜 간의 시간 차이 계산 (밀리초로)
+	        long timeDifference = date2.getTime() - date1.getTime();
+
+	        // 시간 차이를 일, 시, 분, 초로 변환
+	        long seconds = timeDifference / 1000 % 60;
+	        long minutes = (timeDifference / (1000 * 60)) % 60;
+	        long hours = (timeDifference / (1000 * 60 * 60)) % 24;
+	        long days = timeDifference / (1000 * 60 * 60 * 24);
+
+	        // 결과 문자열로 저장
+	        String timeDifferenceStr = String.format("%02dd %02d:%02d:%02d", days, hours, minutes, seconds);
+
+	        return timeDifferenceStr;
+	    } catch (ParseException e) {
+	        e.printStackTrace();
+	        return "";
+	    }
+	}
+
 
 }

@@ -5,6 +5,7 @@
 
 <mapper namespace="com.idr.pdd.mapper.secondary.MachineResultMapper">
 	
+	<!--
 	<select id="ComplianceRate" parameterType="list" resultType="map">
 		SELECT A.order_name,ROUND((CAST(a.cnt AS REAL) / CAST(b.total AS REAL) * 100), 2)as rate
 		FROM
@@ -29,5 +30,33 @@
 		ON A.order_name = B.order_name
 		GROUP BY A.order_name
 	</select>
-
+	-->
+	<select id="ComplianceRate" parameterType="list" resultType="com.idr.pdd.domain.ComplianceParam">
+	SELECT A.order_id,A.order_name,ROUND((CAST(a.cnt AS REAL) / CAST(b.total AS REAL) * 100), 2)as rate,
+     (SELECT datetime(finish_time+ 9*3600,'unixepoch') from machine_result WHERE order_id = A.order_id Order by finish_time DESC LIMIT 1) as end_time
+	FROM
+	 (SELECT order_id ,order_name ,count(order_id) AS CNT,
+	  (SELECT finish_time from machine_result 
+	   WHERE 1=1 AND 
+	   order_id = order_id
+	   Order by finish_time DESC LIMIT 1) as finish_time
+	  from machine_result
+	  where 1=1 AND
+	  <foreach collection="plantable" item="data" index="index" separator="OR" open="(" close=")">
+		  order_id = #{data.order_id} AND finish_time BETWEEN #{data.start_time} AND #{data.due_time}
+	  </foreach>
+	  GROUP BY order_id) A JOIN
+	 (SELECT order_id, order_name, COUNT(order_id) AS TOTAL
+ 	  from machine_result
+ 	  where 1=1 AND  
+ 	  <foreach collection="plantable" item="data" index="index" separator="OR" open="(" close=")">
+ 	     order_id = #{data.order_id}
+ 	  </foreach>
+	  GROUP BY order_id)B
+	 ON A.order_id = B.order_id
+	 GROUP BY A.order_id
+	 ORDER BY A.order_id
+	</select>
+	
+	 
 </mapper>

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.idr.pdd.common.Message;
 import com.idr.pdd.common.StatusEnum;
 import com.idr.pdd.domain.MachineResult;
+import com.idr.pdd.domain.ComplianceParam;
 import com.idr.pdd.domain.LeadTimeResult;
 import com.idr.pdd.service.PrimaryService;
 import com.idr.pdd.service.SecondaryService;
@@ -140,7 +141,7 @@ public class SecondaryController {
 		HttpHeaders headers = new HttpHeaders();
 		
 		try {
-			List<Map<String,String>>result = secondaryService.ComplianceRate();
+			List<ComplianceParam>result = secondaryService.ComplianceRate();
 
 			headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 			message.setStatus(StatusEnum.OK.getCode());

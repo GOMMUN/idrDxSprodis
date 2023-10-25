@@ -56,7 +56,15 @@ public interface MachineResultMapper {
 	List<Map<String, String>> DailyProduction();
 
 
-	List<Map<String, String>> ComplianceRate(List<ComplianceParam> endtime);
+	//List<Map<String, String>> ComplianceRate(List<ComplianceParam> endtime);
+
+
+	@Select("SELECT order_id ,due_time ,datetime(due_time+ 9*3600,'unixepoch')as trans_duetime  from production_result group by order_id order by order_id ASC")
+	List<ComplianceParam> getResultTable();
+
+
+
+	List<ComplianceParam> ComplianceRate(List<ComplianceParam> plantable);
 
 
 }

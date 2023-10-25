@@ -141,10 +141,11 @@ public interface ProductionPlanMapper {
 	
 	@Select("SELECT order_id, (end_time - start_time) AS available_time FROM production_plan pp GROUP BY order_id ORDER BY order_id ")
 	List<Map<String, String>> getAvailabletime();
-	
-	@Select(" SELECT order_id ,start_time ,end_time "
+
+	@Select(" SELECT order_id ,start_time ,datetime(start_time+ 9*3600,'unixepoch')as trans_starttime  "
 			+ " FROM production_plan "
-			+ " group by order_id ")
-	List<ComplianceParam> getEndtime();
+			+ " group by order_id "
+			+ " order by order_id ASC")
+	List<ComplianceParam> getPlanTable();
 
 }
