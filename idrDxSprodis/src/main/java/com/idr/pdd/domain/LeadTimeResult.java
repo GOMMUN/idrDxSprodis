@@ -7,18 +7,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LeadTimeResult {
-	private String ProcTimeD;
-	private String ProcTimeH;
-	private String AvgLeadTimeD;
-	private String AvgLeadTimeH;
-    private String MaxLeadTimeD;
-    private String MaxLeadTimeH;
-    private String MinLeadTimeD;
-    private String MinLeadTimeH;
-    private String AvgLossTimeD;
-    private String AvgLossTimeH;
-    private String MaxLossTimeD;
-    private String MaxLossTimeH;
-    private String MinLossTimeD;
-    private String MinLossTimeH;
+	private String proctime;
+	private String AVGleadtime;
+	private String MAXleadtime;
+	private String MINleadtime;
+	private String AVGlosstime;
+	private String MAXlosstime;
+	private String MINlosstime;
+	
 }

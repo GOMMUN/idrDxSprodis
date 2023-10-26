@@ -53,30 +53,30 @@ public class SecondaryService {
 	public LeadTimeResult LeadTimeResult() {
 		// TODO Auto-generated method stub
 		LeadTimeResult result = machineResultMapper.LeadTimeResult();
-
-		if (!result.getProcTimeD().equals("0")) {
-			result.setProcTimeH(result.getProcTimeD() + "d " + result.getProcTimeH());
-		}
-		if (!result.getAvgLeadTimeD().equals("0")) {
-			result.setAvgLeadTimeH(result.getAvgLeadTimeD()+"d "+result.getAvgLeadTimeH());
-		}
-		if (!result.getMaxLeadTimeD().equals("0")) {
-			result.setMaxLeadTimeH(result.getMaxLeadTimeD()+"d "+result.getMaxLeadTimeH());
-		}
-		if (!result.getMinLeadTimeD().equals("0")) {
-			result.setMinLeadTimeH(result.getMinLeadTimeD()+"d "+result.getMinLeadTimeH());
-		}
-		if (!result.getAvgLossTimeD().equals("0")) {
-			result.setAvgLossTimeH(result.getAvgLossTimeD()+"d "+result.getAvgLossTimeH());
-		}
-		if (!result.getMaxLossTimeD().equals("0")) {
-			result.setMaxLossTimeH(result.getMaxLossTimeD()+"d "+result.getMaxLossTimeH());
-		}
-		if (!result.getMinLossTimeD().equals("0")) {
-			result.setMinLossTimeH(result.getMinLossTimeD()+"d "+result.getMinLossTimeH());
-		}
-
+		result.setProctime(convertSecondsToDDHHMMSS(Double.parseDouble(result.getProctime())));
+		result.setAVGleadtime(convertSecondsToDDHHMMSS(Double.parseDouble(result.getAVGleadtime())));
+		result.setMAXleadtime(convertSecondsToDDHHMMSS(Double.parseDouble(result.getMAXleadtime())));
+		result.setMINleadtime(convertSecondsToDDHHMMSS(Double.parseDouble(result.getMINleadtime())));
+		result.setAVGlosstime(convertSecondsToDDHHMMSS(Double.parseDouble(result.getAVGlosstime())));
+		result.setMAXlosstime(convertSecondsToDDHHMMSS(Double.parseDouble(result.getMAXlosstime())));
+		result.setMINlosstime(convertSecondsToDDHHMMSS(Double.parseDouble(result.getMINlosstime())));
 		return result;
+	}
+	
+	public static String convertSecondsToDDHHMMSS(double seconds) {
+	    int days = (int) (seconds / 86400);
+	    int hours = (int) ((seconds % 86400) / 3600);
+	    int minutes = (int) ((seconds % 3600) / 60);
+	    int remainingSeconds = (int) (seconds % 60);
+
+	    // 각 부분을 2자리로 맞추고, 필요에 따라 0을 추가합니다.
+	    String daysStr = (days == 0) ? "" : String.format("%02d", days);
+	    String hoursStr = String.format("%02d", hours);
+	    String minutesStr = String.format("%02d", minutes);
+	    String secondsStr = String.format("%02d", remainingSeconds);
+	    
+	    String formattedTime = (days == 0) ? hoursStr + ":" + minutesStr + ":" + secondsStr : daysStr + "d:" + hoursStr + ":" + minutesStr + ":" + secondsStr;
+	    return formattedTime;
 	}
 
 	public List<Map<String, String>> DailyProduction() {
