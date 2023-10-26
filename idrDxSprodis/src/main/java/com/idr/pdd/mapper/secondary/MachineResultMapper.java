@@ -38,8 +38,8 @@ public interface MachineResultMapper {
 			+ "    WHERE 1=1 AND Process_id <> 0")
 	LeadTimeResult LeadTimeResult();
 
-
 	@Select("SELECT strftime('%m-%d', DATETIME(finish_time, 'unixepoch')) AS date, "
+			+ "       item_name, "
 			+ "       COUNT(*) AS count "
 			+ " FROM machine_result "
 			+ " WHERE process_type = 2 AND divide_type = 0 OR divide_type = 3 "
