@@ -7,7 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter 
 public class MachineResult {
-	private String machineId;
-    private String machineName;
-    private float equipPerformace;
+	private String machine_id;
+    private String machine_name;
+    private int uptime;
+    private int MinStartTime;
+    private int MaxFinishTime;
+    private String equipPerformace;
 }

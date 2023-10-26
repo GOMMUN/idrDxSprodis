@@ -1,5 +1,6 @@
 package com.idr.pdd.service;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,32 +36,16 @@ public class SecondaryService {
 	}
 
 	public List<MachineResult> EquipResult() {
-		List<MachineResult> result = new ArrayList<>();
-		List<Map<String, String>> Availabletime = productionMapper.getAvailabletime();
-		List<Map<String, String>> uptime = machineResultMapper.getUptime();
-
-		for (Map<String, String> availableTimeItem : Availabletime) {
-			String orderId = String.valueOf(availableTimeItem.get("order_id"));
-			// order_id가 동일한 uptime 아이템 찾기
-			for (Map<String, String> uptimeItem : uptime) {
-				String uptimeOrderId = String.valueOf(uptimeItem.get("order_id"));
-
-				if (orderId.equals(uptimeOrderId)) {
-					String uptimeStr = String.valueOf(uptimeItem.get("uptime"));
-					String availableTimeStr = String.valueOf(availableTimeItem.get("available_time"));
-					float uptimeValue = Float.parseFloat(uptimeStr);
-					float availableTimeValue = Float.parseFloat(availableTimeStr);
-
-					MachineResult mr = new MachineResult();
-					mr.setMachineName(uptimeItem.get("machine_name"));
-					mr.setMachineId(String.valueOf(uptimeItem.get("machine_id")));
-					float equipPerformance = Math.round((uptimeValue / availableTimeValue) * 1000.0f) / 1000.0f;
-					mr.setEquipPerformace(equipPerformance);
-
-					result.add(mr);
-
-				}
-			}
+		List<MachineResult> result = machineResultMapper.EquipResult();
+		
+		for(int i=0;i<result.size();i++) {
+			int uptime = result.get(i).getUptime();
+			int maxFinishTime = result.get(i).getMaxFinishTime();
+			int minStartTime = result.get(i).getMinStartTime();
+			// 부동 소수점 형태로 계산
+			double ratio = ((double) uptime / (maxFinishTime - minStartTime))*100;
+			String formattedRatio = String.format("%.2f", ratio);
+			result.get(i).setEquipPerformace(formattedRatio);
 		}
 		return result;
 	}
