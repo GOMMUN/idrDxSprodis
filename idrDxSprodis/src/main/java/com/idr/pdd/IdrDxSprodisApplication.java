@@ -18,7 +18,7 @@ public class IdrDxSprodisApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("https://dx.idrenvision.com","https://localhost");
+                registry.addMapping("/**").allowedOrigins("*");
             }
         };
     }
