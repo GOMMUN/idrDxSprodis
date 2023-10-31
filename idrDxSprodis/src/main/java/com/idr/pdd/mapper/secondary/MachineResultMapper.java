@@ -58,7 +58,7 @@ public interface MachineResultMapper {
 
 	List<ComplianceParam> ComplianceRate(List<ComplianceParam> plantable);
 
-
+	/*
 	@Select("SELECT "
 			+ "    machine_id , "
 			+ "    machine_name , "
@@ -68,6 +68,16 @@ public interface MachineResultMapper {
 			+ " FROM machine_result "
 			+ " GROUP BY machine_id "
 			+ " ORDER BY machine_id")
+	List<MachineResult> EquipResult();
+	*/
+	@Select("SELECT "
+			+ "    SUBSTRING(machine_name, 1, 3) AS machine_group, "
+			+ "    SUM(finish_time - start_time) AS uptime, "
+			+ "    MIN(start_time) AS MinStartTime, "
+			+ "    MAX(finish_time) AS MaxFinishTime "
+			+ " FROM machine_result "
+			+ " GROUP BY machine_group "
+			+ " ORDER BY machine_group ")
 	List<MachineResult> EquipResult();
 
 
