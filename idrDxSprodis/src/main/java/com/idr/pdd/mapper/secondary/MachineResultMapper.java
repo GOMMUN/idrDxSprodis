@@ -78,7 +78,7 @@ public interface MachineResultMapper {
 			+ " FROM machine_result "
 			+ " GROUP BY machine_group "
 			+ " ORDER BY machine_group ")
-	List<MachineResult> EquipResult();
+	List<MachineResult> EquipResul();
 
 
 }
