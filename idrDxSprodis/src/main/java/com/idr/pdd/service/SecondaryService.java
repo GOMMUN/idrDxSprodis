@@ -36,7 +36,7 @@ public class SecondaryService {
 	}
 
 	public List<MachineResult> EquipResult() {
-		List<MachineResult> result = machineResultMapper.EquipResul();
+		List<MachineResult> result = machineResultMapper.EquipResult();
 		
 		for(int i=0;i<result.size();i++) {
 			int uptime = result.get(i).getUptime();

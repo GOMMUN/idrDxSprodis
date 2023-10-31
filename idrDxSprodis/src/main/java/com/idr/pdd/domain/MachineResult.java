@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter 
 public class MachineResult {
 	private String machine_id;
-    private String machine_grou;
+    private String machine_group;
     private int uptime;
     private int MinStartTime;
     private int MaxFinishTime;
